@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../test"
+		},
+		{
+			"path": "../CRUD"
+		},
+		{
+			"path": "../seriescrud"
+		}
+	],
+	"settings": {
+		"files.autoSave": "afterDelay"
+	}
+}

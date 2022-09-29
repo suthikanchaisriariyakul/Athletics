@@ -1,0 +1,598 @@
+editdata.php (verion 1)
+
+<?php   // db = ฐานข้อมูล (Database)
+    // เชื่อมต่อกับ db
+    include 'condb.php';
+
+    $id = $_GET['editid'];
+    $sql = "SELECT * FROM `showdata` WHERE id = $id";
+    $result = mysqli_query($con,$sql);
+    $row = mysqli_fetch_assoc($result);
+        $id = $row['id'];
+        $list = $row['list'];
+        $grade = $row['grade'];
+        $team = $row['team'];
+
+        $white = $row['white'];
+        $yellow = $row['yellow'];
+        $red = $row['red'];
+        $blue = $row['blue'];
+        $orange = $row['orange'];
+        $green = $row['green'];
+        $statis = $row['statis'];
+
+        if(isset($_POST['update'])) {
+            $id = $_POST['id'];
+            $list = $_POST['list'];
+            $grade = $_POST['grade'];
+            $team = $_POST['team'];
+
+                    $white = $_POST['white'];
+                    $yellow = $_POST['yellow'];
+                    $red = $_POST['red'];
+                    $blue = $_POST['blue'];
+                    $orange = $_POST['orange'];
+                    $green = $_POST['green'];
+                    $statis = $_POST['statis'];
+        
+
+    $sql = "UPDATE `showdata` SET white='$white',yellow='$yellow',red='$red',blue='$blue',orange='$orange',green='$green',statis'$statis' WHERE id = '$id'";
+    $result = mysqli_query($con,$sql);
+
+    if($result) {
+        // echo "Update successfully";
+        header('location:data_2sep.php');
+    } else {
+        die(mysqli_error($con));
+    }
+    }
+    
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+<body>
+     <!-- input ในส่วนของ name ให้ใส่ชื่อเดียวกับในตารางที่เราสร้างไว้ใน db -->
+    <div class="container my-5">
+    <div class="display-6 text-center my-3">บันทึกผล</div>
+        <!-- form ที่ส่งข้อมูลมา จะต้องกำหนด method="POST" เพื่อส่งค่าข้อมูลที่สำคัญและมีจำนวนมาก -->
+        <form method="POST">
+
+
+        <div class="mb-3">
+            <label class="form-label">ลำดับ</label>
+            <input type="text" class="form-control" value=<?php echo $id ?> name="id" autocomplete="off">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">รายการแข่งขัน</label>
+            <input type="text" class="form-control" value=<?php echo $list ?> name="list" autocomplete="off">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">ระดับ</label>
+            <input type="text" class="form-control" value=<?php echo $grade ?> name="grade" autocomplete="off">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">ทีม</label>
+            <input type="text" class="form-control" value=<?php echo $team ?> name="team" autocomplete="off">
+        </div>
+
+
+        <h4>อันดับที่ 1</h4>
+        <select class="form-select form-select-sm my-2" aria-label=".form-select-sm example" name="no1">
+            <option selected>เลือกสี</option>
+            <option value="white">สีขาว</option>
+            <option value="yellow">สีเหลือง</option>
+            <option value="red">สีแดง</option>
+            <option value="blue">สีน้ำเงิน</option>
+            <option value="orange">สีแสด</option>
+            <option value="green">สีเขียว</option>
+        </select>
+
+        <h4>อันดับที่ 2</h4>
+        <select class="form-select form-select-sm my-2" aria-label=".form-select-sm example" name="no2">
+            <option selected>เลือกสี</option>
+            <option value="white">สีขาว</option>
+            <option value="yellow">สีเหลือง</option>
+            <option value="red">สีแดง</option>
+            <option value="blue">สีน้ำเงิน</option>
+            <option value="orange">สีแสด</option>
+            <option value="green">สีเขียว</option>
+        </select>
+        
+        <h4>อันดับที่ 3</h4>
+        <select class="form-select form-select-sm my-2" aria-label=".form-select-sm example" name="no3">
+            <option selected>เลือกสี</option>
+            <option value="white">สีขาว</option>
+            <option value="yellow">สีเหลือง</option>
+            <option value="red">สีแดง</option>
+            <option value="blue">สีน้ำเงิน</option>
+            <option value="orange">สีแสด</option>
+            <option value="green">สีเขียว</option>
+        </select>
+
+       <div class="">
+            <p>สถิติ</p>
+       </div>
+
+        <!-- / btn-lg = ใหญ่ขึ้น / my-3 = magin บน ล่าง ห่างกัน5 -->
+        <button class="btn btn-dark my-3" type="submit" name="update">บันทึก</button>
+
+        </form>
+    </div>
+    
+    <script src="js/bootstrap.min.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+adddata.php *******
+
+<?php   // db = ฐานข้อมูล (Database)
+    // เชื่อมต่อกับ db
+
+    include 'condb.php';
+
+    // คำสั่ง เมื่อ(ถ้า)กดปุ่ม submit ข้อมูลจะถูกส่งไปที่ db
+    if(isset($_POST['submit'])) {
+        // ถ้ามีการส่งข้อมูล ชื่อ fname ข้อมูลก็จะถูกส่งไปยังตาราง fname ใน db
+
+        $id = $_POST['id'];
+        $list = $_POST['list'];
+        $grade = $_POST['grade'];
+        $typ = $_POST['typ'];
+        $team = $_POST['team'];
+        $tus = $_POST['tus'];
+        $no1 = $_POST['no1'];
+        $no2 = $_POST['no2'];
+        $no3 = $_POST['no3'];
+        $sta = $_POST['sta'];
+
+
+        // insert query
+        $sql = "INSERT INTO data_2sep (id,list,grade,typ,team,tus,no1,no2,no3,sta) values ('$id','$list','$grade','$typ','$team','$tus','$no1','$no2','$no3','$sta')";
+
+        $result = mysqli_query($con,$sql);
+
+            if($result) {
+                echo 'Data inserted successfully';
+                header('location:data_2sep.php');
+            } else {
+                die(mysqli_error($con));
+                echo 'error';
+            }
+    }
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add data</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <style>
+        .container {
+            -webkit-border-radius: 10px 10px 10px 10px;
+            border-radius: 10px 10px 10px 10px;
+            background: #fff;
+            padding: 30px;
+            width: 100%;
+            max-width: 850px;
+            position: relative;
+            padding: 5px;
+            -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+            box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        
+        .neumorphism {
+            margin: 3rem;
+        }
+    </style>
+    
+</head>
+<body>
+     <!-- input ในส่วนของ name ให้ใส่ชื่อเดียวกับในตารางที่เราสร้างไว้ใน db -->
+    <div class="container my-5">
+        <div class="neumorphism">
+    <div class="display-6 text-center my-3">เพิ่มรายการ</div>
+        <!-- form ที่ส่งข้อมูลมา จะต้องกำหนด method="POST" เพื่อส่งค่าข้อมูลที่สำคัญและมีจำนวนมาก -->
+        <form method="POST"> 
+        <div class="row">
+            <div class="col-2 mb-3">
+                <label class="form-label">ลำดับ</label>
+                <input type="text" class="form-control" name="id" autocomplete="off">
+            </div>
+            <div class="col-5 mb-3">
+                <label class="form-label">รายการแข่งขัน</label>
+                <input type="text" class="form-control" name="list" autocomplete="off">
+            </div>
+
+        </div>
+
+        <div class="row">  
+            <div class="col-3 mb-3">
+                <label class="form-label">ระดับ</label>
+                <input type="text" class="form-control" name="grade" autocomplete="off"></div>
+            <div class="col-2 mb-3">
+                <label class="form-label">ประเภท</label>
+                <input type="text" class="form-control" name="typ" autocomplete="off"></div>
+            <div class="col-1 mb-3">
+                <label class="form-label">ทีม</label>
+                <input type="text" class="form-control" name="team" autocomplete="off"></div>
+            <div class="col-3 mb-3">
+                <label class="form-label">สถานะ</label>
+                <select class="form-select" name="tus">
+                    <option selected>เลือกสถานะ</option>
+                    <option value="แข่งแล้ว">แข่งแล้ว</option>
+                    <option value="ยังไม่ได้แข่ง">ยังไม่ได้แข่ง</option>
+                    <option value="ยกเลิกรายการ">ยกเลิกรายการ</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-3 mb-3">
+                <img src="img/coin1.png" alt="">
+                <p>อันดับที่ 1</p>
+                <select class="form-select" name="no1">
+                    <option selected>เลือกสี</option>
+                    <option value="สีขาว">สีขาว</option>
+                    <option value="สีเหลือง">สีเหลือง</option>
+                    <option value="สีแดง">สีแดง</option>
+                    <option value="สีน้ำเงิน">สีน้ำเงิน</option>
+                    <option value="สีแสด">สีแสด</option>
+                    <option value="สีเขียว">สีเขียว</option>
+                </select>
+            </div>
+
+            <div class="col-3 mb-3">
+                <img src="img/coin2.png" alt="">
+                <p>อันดับที่ 2</p>
+                <select class="form-select" name="no2">
+                    <option selected>เลือกสี</option>
+                    <option value="สีขาว">สีขาว</option>
+                    <option value="สีเหลือง">สีเหลือง</option>
+                    <option value="สีแดง">สีแดง</option>
+                    <option value="สีน้ำเงิน">สีน้ำเงิน</option>
+                    <option value="สีแสด">สีแสด</option>
+                    <option value="สีเขียว">สีเขียว</option>
+                </select>
+            </div>
+            
+            <div class="col-3 mb-3">
+                <img src="img/coin3.png" alt="">
+                <p>อันดับที่ 3</p>
+                <select class="form-select" name="no3">
+                    <option selected>เลือกสี</option>
+                    <option value="สีขาว">สีขาว</option>
+                    <option value="สีเหลือง">สีเหลือง</option>
+                    <option value="สีแดง">สีแดง</option>
+                    <option value="สีน้ำเงิน">สีน้ำเงิน</option>
+                    <option value="สีแสด">สีแสด</option>
+                    <option value="สีเขียว">สีเขียว</option>
+                </select>
+            </div>
+        </div>
+       
+
+        <div class="row">
+            <div class="col-sm-2">
+                สถิติ
+                <input class="form-control" type="text" name="sta" placeholder="00:00:00"  autocomplete="off" />
+            </div>
+        </div>
+       
+
+
+
+        <!-- / btn-lg = ใหญ่ขึ้น / my-3 = magin บน ล่าง ห่างกัน5 -->
+        <button class="btn btn-success my-3" type="submit" name="submit">บันทึก</button>
+
+        </form>
+        </div>
+    </div>
+
+    <script src="js/bootstrap.min.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+for show all result ath
+
+TABLE
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>result_2sep</title>
+
+    <link rel="stylesheet" href="style3.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container my-5">
+<div class="row mt-5">
+        <div class="col">
+          <div class="card bg-default shadow">
+            <div class="card-header bg-transparent border-0">
+              <h3 class="text-white mb-0">Score Board</h3>
+            </div>
+            <div class="table-responsive">
+              <table class="table align-items-center table-dark table-flush">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Project</th>
+                    <th scope="col">Budget</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Users</th>
+                    <th scope="col">Completion</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  </tr>
+                  <tr>
+                    <th scope="row">
+                      <div class="media align-items-center">
+                        <a href="#" class="avatar rounded-circle mr-3">
+                          <!-- <img alt="Image placeholder" src="https://raw.githack.com/creativetimofficial/argon-dashboard/master/assets/img/theme/vue.jpg"> -->
+                          
+                        </a>
+                        <!-- <div class="media-body">
+                          <span class="mb-0 text-sm">Vue Paper UI Kit PRO</span>
+                        </div> -->
+                      </div>
+                    </th>
+                    <td>
+                    Score
+                    </td>
+                    <td>
+                      <!-- <span class="badge badge-dot mr-4">
+                        <i class="bg-success"></i> completed
+                      </span> -->
+                      <div class="avatar-group">
+                        Score
+                      </div>
+                    </td>
+                    <td>
+                      <div class="avatar-group">
+                        Score
+                      </div>
+                    </td>
+                    <td>
+                      <div class="d-flex align-items-center">
+                        <span class="mr-2">100%</span>
+                        <div>
+                          <div class="progress">
+                            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="text-right">
+                      <div class="dropdown">
+                        <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="fas fa-ellipsis-v"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                          <a class="dropdown-item" href="#">Action</a>
+                          <a class="dropdown-item" href="#">Another action</a>
+                          <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+
+
+
+
+<script src="https://raw.githack.com/creativetimofficial/argon-dashboard/master/assets/vendor/jquery/dist/jquery.min.js"></script>
+<script src="https://raw.githack.com/creativetimofficial/argon-dashboard/master/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="js/bootstrap.min.js"></script>
+</body>
+</html>
+
+
+
+<?php
+						if($final >=75){
+							echo "<td style='background-color:green; color:#fff;'>Pass</td>";
+						}else if($final < 75){
+							echo "<td style='background-color:red; color:#fff;'>Fail</td>";
+						}else if($final < 75){
+							echo "<td style='background-color:red; color:#fff;'>Fail</td>";
+						}
+?>
+
+
+
+
+
+
+<- - - - - รูปแบบหน้า "สรุปเหรียญรางวัลการแข่งขันกรีฑาสี 'เก่า' " - - - - - >
+
+ <div class="content">
+
+    <div class="row align-items-center">
+    <div class="col my-5">
+        <table class="table-center" style=" width:50rem;">
+            <thead style="text-align: center;">
+                <tr style="text-align: center;">
+                    <th colspan="6"><h3 style="text-align: center;margin: 10px;padding-top: 10px; font-size:25px;margin: 5px;padding-top: 10px;">สรุปเหรียญรางวัลการแข่งขันกรีฑาสีระดับชั้น ป.4</h3></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th style="font-size: 20px;">No.</th>
+                    <th style="font-size: 20px;">Colors</th>
+                    <th> <img src="img/coin1.png" height="65px" alt=""> </th>
+                    <th> <img src="img/coin2.png" height="65px" alt=""> </th>
+                    <th> <img src="img/coin3.png" height="65px" alt=""> </th>
+                    <th style="font-size: 20px;">Total Score</th>
+                </tr>
+                <tr>
+                    <td>1<sup>st</sup></td>
+                    <td><img src="img/color_icon1.png" height="60px" alt=""></td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>2<sup>nd</sup></td>
+                    <td><img src="img/color_icon2.png" height="60px" alt=""></td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>3<sup>rd</sup></td>
+                    <td><img src="img/color_icon3.png" height="60px" alt=""></td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>4<sup>th</sup></td>
+                    <td><img src="img/color_icon4.png" height="60px" alt=""></td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>5<sup>th</sup></td>
+                    <td><img src="img/color_icon5.png" height="60px" alt=""></td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>6<sup>th</sup></td>
+                    <td><img src="img/color_icon6.png" height="60px" alt=""></td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col my-5">
+        <table class="table-center" style=" width:50rem;">
+            <thead style="text-align: center;">
+                <tr style="text-align: center;">
+                    <th colspan="6"><h3 style="text-align: center;margin: 10px;padding-top: 10px; font-size:25px;margin: 5px;padding-top: 10px;">สรุปเหรียญรางวัลการแข่งขันกรีฑาสีระดับชั้น ป.5</h3></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th style="font-size: 20px;">No.</th>
+                    <th style="font-size: 20px;">Colors</th>
+                    <th> <img src="img/coin1.png" height="65px" alt=""> </th>
+                    <th> <img src="img/coin2.png" height="65px" alt=""> </th>
+                    <th> <img src="img/coin3.png" height="65px" alt=""> </th>
+                    <th style="font-size: 20px;">Total Score</th>
+                </tr>
+                <tr>
+                    <td>1<sup>st</sup></td>
+                    <td><img src="img/color_icon1.png" height="60px" alt=""></td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>2<sup>nd</sup></td>
+                    <td><img src="img/color_icon2.png" height="60px" alt=""></td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>3<sup>rd</sup></td>
+                    <td><img src="img/color_icon3.png" height="60px" alt=""></td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>4<sup>th</sup></td>
+                    <td><img src="img/color_icon4.png" height="60px" alt=""></td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>5<sup>th</sup></td>
+                    <td><img src="img/color_icon5.png" height="60px" alt=""></td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>6<sup>th</sup></td>
+                    <td><img src="img/color_icon6.png" height="60px" alt=""></td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</div>
+
+
+<script src="https://raw.githack.com/creativetimofficial/argon-dashboard/master/assets/vendor/jquery/dist/jquery.min.js"></script>
+<script src="https://raw.githack.com/creativetimofficial/argon-dashboard/master/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
